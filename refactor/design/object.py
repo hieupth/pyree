@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
 from refactor.system import logging
 
 
-class Base(ABC):
+class Object:
   """
   Base class that provide utility functions to all inherited.
 
@@ -26,6 +25,4 @@ class Base(ABC):
   def __init__(self, *args, **kwds) -> None:
     super().__init__()
     self.__logger = logging.getLogger(f'{__name__}.{self.classname}')
-
-  def brief(self) -> dict:
-    return {'classname': self.classname, 'module': self.modulename}
+  

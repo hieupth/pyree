@@ -1,7 +1,8 @@
-from refactor.design.structural import Base
+from typing import Any
+from refactor.design import Object
 
 
-class Observer(Base):
+class Observer(Object):
   """
   Watch changes of observable objects.
   
@@ -10,17 +11,12 @@ class Observer(Base):
   :updated: 11:40 Sun 1 Sep 2024.
   """
 
-  def __call__(self, *args: any, **kwds: any) -> any:
-    event, dispatcher, payload = kwds.get('event'), kwds.get('dispatcher'), kwds.get('payload')
-    if isinstance(event, str):
-      self.on_event(event, dispatcher, payload)
-
-  def on_event(self, event: str, dispatcher: any, payload: any = None):
+  def on_event_dispatched(self, event: str, dispatcher: Any, payload: Any = None) -> Any:
     self.logger.debug(f'{str(self)} received event: {event} from: {str(dispatcher)} with payload: {str(payload)}')
 
 
 
-class Observable(Base):
+class Observable(Object):
   """
   Allows some objects to notify other objects about changes in their state.
   
@@ -61,8 +57,8 @@ class Observable(Base):
       return self
     raise TypeError()
   
-  def emit(self, event: str, payload: any = None):
+  def emit(self, event: str, payload: Any = None):
     if event in self._observers:
       for listener in self._observers[event]:
-        listener(event=event, dispatcher=self, payload=payload)
+        listener.on_event_dispatched(event=event, dispatcher=self, payload=payload)
     return self

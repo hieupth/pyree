@@ -1,1 +1,1 @@
-from .base import Base
+from .obsprop import ObsProp
