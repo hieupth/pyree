@@ -80,4 +80,4 @@ class AssetLoaders(AssetLoaderInterface, Object, metaclass=Singleton):
         return loader.load(src, *args, **kwds)
       except:
         continue
-    raise AssertionError(f'cannot load asset {str(src):20s}.')
+    raise AssertionError(f'Cannot load asset {str(src):20s}.')
