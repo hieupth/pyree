@@ -35,20 +35,20 @@ class AssetLoader(AssetLoaderInterface):
     try:
       return Path(src).expanduser().resolve().read_bytes()
     except:
-      self.logger.debug(f'cannot load asset {str(src)} as file.')
+      self.logger.debug(f'Cannot load asset {str(src):20s} as file.')
     try:
       return urllib.request.urlopen(src).read()
     except:
-      self.logger.debug(f'cannot load asset {str(src)} as http.')
+      self.logger.debug(f'Cannot load asset {str(src):20s} as http.')
     try:
       return base64.b64decode(src, validate=True)
     except:
-      self.logger.debug(f'cannot load asset {str(src)} as base64.')
+      self.logger.debug(f'Cannot load asset {str(src):20s} as base64.')
     try:
       return bytes(src)
     except:
-      self.logger.debug(f'cannot load asset {str(src)} as bytes.')
-    raise TypeError(f'cannot load asset {str(src)}.')
+      self.logger.debug(f'Cannot load asset {str(src):20s} as bytes.')
+    raise TypeError(f'Cannot load asset {str(src):20s}.')
 
 
 class AssetLoaders(AssetLoaderInterface, Object, metaclass=Singleton):

@@ -49,6 +49,7 @@ def get_readme_description(path: str = os.path.join(os.getcwd(), 'README.md')):
     path = pathlib.Path(path).expanduser().resolve()
     with open(path, encoding='utf-8') as file:
         description = file.read()
+    return description
 
 
 setup(
@@ -57,14 +58,14 @@ setup(
     packages=find_packages(),
     license='Copyright (c) 2024 Hieu Pham',
     zip_safe=True,
-    description='Restructuring existing code from a mess into clean code, simple design and performance application',
+    description='Restructuring existing code from a mess into clean code and simple design.',
     long_description=get_readme_description(),
     long_description_content_type='text/markdown',
     author='Hieu Pham',
     author_email='64821726+hieupth@users.noreply.github.com',
     url='https://github.com/hieupth/pyrefactor',
     keywords=[],
-    install_requires=['rawpy', 'pillow_heif'],
+    install_requires=['pandas', 'rawpy', 'pillow_heif'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
