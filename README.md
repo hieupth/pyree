@@ -1,7 +1,7 @@
 # Python Refactoring
 Reconstructing existing Python source code from a mess into clean and flexible design.
 ```bash
-pip install librefactor
+pip install pyrefactoring
 ```
 ## License
 [GNU AGPL v3.0.](LICENSE)<br>

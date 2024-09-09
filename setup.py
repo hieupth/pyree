@@ -38,7 +38,7 @@ def gitversion() -> str:
 
 
 setup(
-  name="librefactor",
+  name="pyrefactoring",
   version=gitversion(),
   packages=find_packages(),
   license="GNU AGPL v3.0",
