@@ -30,18 +30,16 @@ class Object:
   def logger(self) -> logging.Logger:
     return logging.getLogger(f"{__name__}.{self.classname}")
 
-
   def __init__(self, *args, **kwds) -> None:
-    self.__oid__ = kwds.get(
-      key = "oid", 
-      default = uuid4().hex
-    )
+    self.__oid__ = kwds.get("oid", uuid4().hex)
     self.__modulename__ = kwds.get(
-      key = "__modulename__",
-      default = "refactor.objects" if self.__class__ == Object else self.__module__
+      "__modulename__",
+      "refactor" if self.__class__ == Object else self.__module__
     )
+    # Support attrs init.
     if "__attrs_init__" in dir(self):
       self.__attrs_init__(*args, **kwds)
+    # Register object to manager.
     ObjectManager().register(self)
 
   def asdict(self, *args, **kwds) -> dict:
@@ -51,11 +49,11 @@ class Object:
       return Reference(oid=self.oid).asdict(*args, **kwds)
     else:
       kwds["cache"].append(self.oid)
-      _ignores = kwds.get("ignore", ())
-      _attr_keys = [x for x in dir(self) if not x.startswith("_") and x not in ("object", "logger") and x not in _ignores]
-      _attr_vals = [getattr(self, x) for x in _attr_keys]
-      _attr_vals = [x if not isinstance(x, Object) else x.asdict(*args, **kwds) for x in _attr_vals ]
-    return dict(zip(_attr_keys, _attr_vals))
+      ignores = kwds.get("ignores", ())
+      keys = [x for x in dir(self) if not x.startswith("_") and x not in ("object", "logger") and x not in ignores]
+      vals = [getattr(self, x) for x in keys]
+      vals = [x if not isinstance(x, Object) else x.asdict(*args, **kwds) for x in vals ]
+    return dict(zip(keys, vals))
   
   @staticmethod
   def fromdict(data: dict, *args, **kwds) -> Any:
@@ -76,13 +74,10 @@ class Reference(Object):
     return ObjectManager().get(self.oid)
 
   def __init__(self, oid: str, *args, **kwds) -> None:
-    self.__oid__ = kwds.get(
-      key = "oid", 
-      default = uuid4().hex
-    )
+    self.__oid__ = kwds.get("oid", uuid4().hex)
     self.__modulename__ = kwds.get(
-      key = "__modulename__",
-      default = "refactor.objects" if self.__class__ == Reference else self.__module__
+      "__modulename__",
+      "refactor.objects" if self.__class__ == Reference else self.__module__
     )
 
   def asdict(self, *args, **kwds) -> dict:
